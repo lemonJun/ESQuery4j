@@ -26,7 +26,7 @@ import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 
 import core.ESTemplateClient;
-import lemon.elastic.query4j.BootStrap;
+import lemon.elastic.query4j.Init;
 import lemon.elastic.query4j.esproxy.core.query.IndexQuery;
 import lemon.elastic.query4j.util.StringUtil;
 import lemon.elastic4j.test.chew.ElasticResume;
@@ -46,7 +46,7 @@ public class CvIndex {
     AtomicInteger zerosal = new AtomicInteger(0);
 
     public static void main(String[] args) {
-        BootStrap.init();
+        Init.init();
         new CvIndex().index();
     }
 

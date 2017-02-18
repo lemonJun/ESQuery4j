@@ -5,14 +5,14 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 
 import core.ESTemplateClient;
-import lemon.elastic.query4j.BootStrap;
+import lemon.elastic.query4j.Init;
 import lemon.elastic4j.test.chew.SplitIndex;
 
 public class MappingTest {
 
     static {
         try {
-            BootStrap.init();
+            Init.init();
         } catch (Exception e) {
             e.printStackTrace();
         }

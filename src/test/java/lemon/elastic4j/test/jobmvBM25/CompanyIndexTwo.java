@@ -25,7 +25,7 @@ import com.google.common.io.LineProcessor;
 import com.google.common.util.concurrent.RateLimiter;
 
 import core.ESTemplateClient;
-import lemon.elastic.query4j.BootStrap;
+import lemon.elastic.query4j.Init;
 import lemon.elastic.query4j.esproxy.core.query.IndexQuery;
 import lemon.elastic.query4j.esproxy.core.query.IndexQueryBuilder;
 import lemon.elastic.query4j.util.StringUtil;
@@ -47,7 +47,7 @@ public class CompanyIndexTwo {
     private static LinkedBlockingQueue<IndexQuery> queue = new LinkedBlockingQueue<IndexQuery>();
 
     public static void main(String[] args) {
-        BootStrap.init();
+        Init.init();
 
         ScheduledExecutorService respScheduler = new ScheduledThreadPoolExecutor(1);
 

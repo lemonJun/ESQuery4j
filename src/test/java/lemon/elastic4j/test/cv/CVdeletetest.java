@@ -6,14 +6,14 @@ import org.junit.Test;
 import com.bj58.chr.scf.cvsearch.entity.CVIndexBean;
 
 import core.ESTemplateClient;
-import lemon.elastic.query4j.BootStrap;
+import lemon.elastic.query4j.Init;
 import lemon.elastic.query4j.esproxy.core.query.DeleteQuery;
 import lemon.elastic.query4j.esproxy.core.query.NativeSearchQueryBuilder;
 
 public class CVdeletetest {
 
     static {
-        BootStrap.init();
+        Init.init();
     }
 
     //此处确实可以按条件删除  但无法得到按条件删除的dsl

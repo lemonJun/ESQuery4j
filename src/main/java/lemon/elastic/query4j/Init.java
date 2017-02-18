@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
  * @date 2016年3月28日 下午9:24:37
  * @see
  */
-public class BootStrap {
+public class Init {
 
-    private static final Logger logger = LoggerFactory.getLogger(BootStrap.class);
+    private static final Logger logger = LoggerFactory.getLogger(Init.class);
 
     public static void init(String filepath) {
         try {

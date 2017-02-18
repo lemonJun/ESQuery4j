@@ -5,12 +5,12 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 
 import core.ESTemplateClient;
-import lemon.elastic.query4j.BootStrap;
+import lemon.elastic.query4j.Init;
 
 public class CompanyMapping {
 
     static {
-        BootStrap.init();
+        Init.init();
     }
 
     @Test

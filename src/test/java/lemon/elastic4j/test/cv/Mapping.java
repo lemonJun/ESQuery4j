@@ -4,12 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.bj58.chr.scf.cvsearch.entity.CVIndexBean;
 
 import core.ESTemplateClient;
-import lemon.elastic.query4j.BootStrap;
+import lemon.elastic.query4j.Init;
 
 public class Mapping {
 
     public static void main(String[] args) {
-        BootStrap.init();
+        Init.init();
 
         new Mapping().build();
     }

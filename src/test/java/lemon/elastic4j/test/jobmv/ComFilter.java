@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 
 import core.ESTemplateClient;
-import lemon.elastic.query4j.BootStrap;
+import lemon.elastic.query4j.Init;
 import lemon.elastic.query4j.esproxy.core.query.NativeSearchQueryBuilder;
 import lemon.elastic.query4j.esproxy.core.query.SearchQuery;
 
@@ -23,7 +23,7 @@ import lemon.elastic.query4j.esproxy.core.query.SearchQuery;
 public class ComFilter {
 
     static {
-        BootStrap.init();
+        Init.init();
     }
 
     //聚合结果无效啊
