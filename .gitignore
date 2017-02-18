@@ -10,3 +10,4 @@
  +*.versionsBackup
  +*bin
  +.DS_Store
+/target/
