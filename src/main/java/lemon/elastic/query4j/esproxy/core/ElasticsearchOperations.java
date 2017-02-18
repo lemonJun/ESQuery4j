@@ -23,7 +23,6 @@ import java.util.Set;
 import org.elasticsearch.action.update.UpdateResponse;
 
 import lemon.elastic.query4j.esproxy.core.query.AliasQuery;
-import lemon.elastic.query4j.esproxy.core.query.CriteriaQuery;
 import lemon.elastic.query4j.esproxy.core.query.DSLQuery;
 import lemon.elastic.query4j.esproxy.core.query.DeleteQuery;
 import lemon.elastic.query4j.esproxy.core.query.GetQuery;
@@ -159,7 +158,7 @@ public interface ElasticsearchOperations {
      * @param clazz
      * @return the first matching object
      */
-    <T> T queryForObject(CriteriaQuery query, Class<T> clazz);
+    //    <T> T queryForObject(CriteriaQuery query, Class<T> clazz);
 
     /**
      * Execute the query against elasticsearch and return the first returned
@@ -206,7 +205,7 @@ public interface ElasticsearchOperations {
      * @param clazz
      * @return
      */
-    <T> Page<T> queryForPage(CriteriaQuery query, Class<T> clazz);
+    //    <T> Page<T> queryForPage(CriteriaQuery query, Class<T> clazz);
 
     /**
      * Execute the query against elasticsearch and return result as {@link Page}
@@ -240,7 +239,7 @@ public interface ElasticsearchOperations {
      * @return
      * @since 1.3
      */
-    <T> CloseableIterator<T> stream(CriteriaQuery query, Class<T> clazz);
+    //    <T> CloseableIterator<T> stream(CriteriaQuery query, Class<T> clazz);
 
     /**
      * Executes the given {@link SearchQuery} against elasticsearch and return
@@ -282,7 +281,7 @@ public interface ElasticsearchOperations {
      * @param <T>
      * @return
      */
-    <T> List<T> queryForList(CriteriaQuery query, Class<T> clazz);
+    //    <T> List<T> queryForList(CriteriaQuery query, Class<T> clazz);
 
     /**
      * Execute the string query against elasticsearch and return result as
@@ -321,7 +320,7 @@ public interface ElasticsearchOperations {
      * @param clazz
      * @return
      */
-    <T> long count(CriteriaQuery query, Class<T> clazz);
+    //    <T> long count(CriteriaQuery query, Class<T> clazz);
 
     /**
      * return number of elements found by given query
@@ -329,7 +328,7 @@ public interface ElasticsearchOperations {
      * @param query
      * @return
      */
-    <T> long count(CriteriaQuery query);
+    //    <T> long count(CriteriaQuery query);
 
     /**
      * return number of elements found by given query
@@ -414,7 +413,7 @@ public interface ElasticsearchOperations {
      * @param clazz
      * @param criteriaQuery
      */
-    <T> void delete(CriteriaQuery criteriaQuery, Class<T> clazz);
+    //    <T> void delete(CriteriaQuery criteriaQuery, Class<T> clazz);
 
     /**
      * Delete the one object with provided id
@@ -515,7 +514,7 @@ public interface ElasticsearchOperations {
      * @param noFields
      * @return
      */
-    String scan(CriteriaQuery query, long scrollTimeInMillis, boolean noFields);
+    //    String scan(CriteriaQuery query, long scrollTimeInMillis, boolean noFields);
 
     /**
      * Returns scroll id for scan query

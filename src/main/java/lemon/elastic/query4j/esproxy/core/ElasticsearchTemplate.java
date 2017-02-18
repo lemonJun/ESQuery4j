@@ -78,7 +78,6 @@ import lemon.elastic.query4j.esproxy.core.facet.FacetRequest;
 import lemon.elastic.query4j.esproxy.core.mapping.ElasticsearchPersistentEntity;
 import lemon.elastic.query4j.esproxy.core.mapping.SimpleElasticsearchMappingContext;
 import lemon.elastic.query4j.esproxy.core.query.AliasQuery;
-import lemon.elastic.query4j.esproxy.core.query.CriteriaQuery;
 import lemon.elastic.query4j.esproxy.core.query.DSLQuery;
 import lemon.elastic.query4j.esproxy.core.query.DeleteQuery;
 import lemon.elastic.query4j.esproxy.core.query.GetQuery;
@@ -143,7 +142,7 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
     public <T> boolean createIndex(Class<T> clazz) {
         return createIndexIfNotCreated(clazz);
     }
-    
+
     @Override
     public boolean createIndex(String indexName) {
         Preconditions.checkNotNull(indexName, "No index defined for Query");
@@ -240,12 +239,12 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
         return entity;
     }
 
-    @Override
-    public <T> T queryForObject(CriteriaQuery query, Class<T> clazz) {
-        Page<T> page = queryForPage(query, clazz);
-        Preconditions.checkState(page.getTotalElements() < 2, "Expected 1 but found " + page.getTotalElements() + " results");
-        return (T) (page.getTotalElements() > 0 ? page.getContent().get(0) : null);
-    }
+    //    @Override
+    //    public <T> T queryForObject(CriteriaQuery query, Class<T> clazz) {
+    //        Page<T> page = queryForPage(query, clazz);
+    //        Preconditions.checkState(page.getTotalElements() < 2, "Expected 1 but found " + page.getTotalElements() + " results");
+    //        return (T) (page.getTotalElements() > 0 ? page.getContent().get(0) : null);
+    //    }
 
     @Override
     public <T> List<T> queryForList(StringQuery query, Class<T> clazz) {
@@ -269,10 +268,10 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
         return resultsExtractor.extract(response);
     }
 
-    @Override
-    public <T> List<T> queryForList(CriteriaQuery query, Class<T> clazz) {
-        return queryForPage(query, clazz).getContent();
-    }
+    //    @Override
+    //    public <T> List<T> queryForList(CriteriaQuery query, Class<T> clazz) {
+    //        return queryForPage(query, clazz).getContent();
+    //    }
 
     @Override
     public <T> List<T> queryForList(SearchQuery query, Class<T> clazz) {
@@ -303,51 +302,51 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
         SearchResponse response = getSearchResponse(prepareSearch(query, clazz).setQuery(query.getSource()).execute());
         return mapper.mapResults(response, clazz, query.getPageable());
     }
-    
-    /**
-     * 只有查询 最小分 过滤等内容 比原生的es客户端要少好多东西的 而在Query层面上 各种参数又是支持的 所以不晓得此外为啥支持的这么少
-     */
-    @SuppressWarnings("unused")
-    @Override
-    public <T> Page<T> queryForPage(CriteriaQuery criteriaQuery, Class<T> clazz) {
-        QueryBuilder elasticsearchQuery = new CriteriaQueryProcessor().createQueryFromCriteria(criteriaQuery.getCriteria());
-        
-        //        logger.info(elasticsearchQuery.toString());
-        FilterBuilder elasticsearchFilter = new CriteriaFilterProcessor().createFilterFromCriteria(criteriaQuery.getCriteria());
 
-        SearchRequestBuilder searchRequestBuilder = prepareSearch(criteriaQuery, clazz);
-
-        if (elasticsearchQuery != null) {
-            searchRequestBuilder.setQuery(elasticsearchQuery);
-        } else {
-            searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery());
-        }
-
-        if (criteriaQuery.getMinScore() > 0) {
-            searchRequestBuilder.setMinScore(criteriaQuery.getMinScore());
-        }
-
-        if (StringUtil.isNotNullOrEmpty(criteriaQuery.getRoute())) {
-            searchRequestBuilder.setRouting(criteriaQuery.getRoute());
-        }
-
-        if (elasticsearchFilter != null)
-            searchRequestBuilder.setPostFilter(elasticsearchFilter);
-        // 查询的语句是以格式化后的json传递的
-        logger.info("criteriaqueyr dsl:\n" + searchRequestBuilder.toString());
-
-        // 获取返回结果
-        SearchResponse response = getSearchResponse(searchRequestBuilder.execute());
-        return resultsMapper.mapResults(response, clazz, criteriaQuery.getPageable());
-    }
-
-    @Override
-    public <T> CloseableIterator<T> stream(CriteriaQuery query, Class<T> clazz) {
-        final long scrollTimeInMillis = TimeValue.timeValueMinutes(1).millis();
-        setPersistentEntityIndexAndType(query, clazz);
-        final String initScrollId = scan(query, scrollTimeInMillis, false);
-        return doStream(initScrollId, scrollTimeInMillis, clazz, resultsMapper);
-    }
+    //    /**
+    //     * 只有查询 最小分 过滤等内容 比原生的es客户端要少好多东西的 而在Query层面上 各种参数又是支持的 所以不晓得此外为啥支持的这么少
+    //     */
+    //    @SuppressWarnings("unused")
+    //    @Override
+    //    public <T> Page<T> queryForPage(CriteriaQuery criteriaQuery, Class<T> clazz) {
+    //        QueryBuilder elasticsearchQuery = new CriteriaQueryProcessor().createQueryFromCriteria(criteriaQuery.getCriteria());
+    //
+    //        //        logger.info(elasticsearchQuery.toString());
+    //        FilterBuilder elasticsearchFilter = new CriteriaFilterProcessor().createFilterFromCriteria(criteriaQuery.getCriteria());
+    //
+    //        SearchRequestBuilder searchRequestBuilder = prepareSearch(criteriaQuery, clazz);
+    //
+    //        if (elasticsearchQuery != null) {
+    //            searchRequestBuilder.setQuery(elasticsearchQuery);
+    //        } else {
+    //            searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery());
+    //        }
+    //
+    //        if (criteriaQuery.getMinScore() > 0) {
+    //            searchRequestBuilder.setMinScore(criteriaQuery.getMinScore());
+    //        }
+    //
+    //        if (StringUtil.isNotNullOrEmpty(criteriaQuery.getRoute())) {
+    //            searchRequestBuilder.setRouting(criteriaQuery.getRoute());
+    //        }
+    //
+    //        if (elasticsearchFilter != null)
+    //            searchRequestBuilder.setPostFilter(elasticsearchFilter);
+    //        // 查询的语句是以格式化后的json传递的
+    //        logger.info("criteriaqueyr dsl:\n" + searchRequestBuilder.toString());
+    //
+    //        // 获取返回结果
+    //        SearchResponse response = getSearchResponse(searchRequestBuilder.execute());
+    //        return resultsMapper.mapResults(response, clazz, criteriaQuery.getPageable());
+    //    }
+    //
+    //    @Override
+    //    public <T> CloseableIterator<T> stream(CriteriaQuery query, Class<T> clazz) {
+    //        final long scrollTimeInMillis = TimeValue.timeValueMinutes(1).millis();
+    //        setPersistentEntityIndexAndType(query, clazz);
+    //        final String initScrollId = scan(query, scrollTimeInMillis, false);
+    //        return doStream(initScrollId, scrollTimeInMillis, clazz, resultsMapper);
+    //    }
 
     @Override
     public <T> CloseableIterator<T> stream(SearchQuery query, Class<T> clazz) {
@@ -362,19 +361,19 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
         return doStream(initScrollId, scrollTimeInMillis, clazz, mapper);
     }
 
-    @Override
-    public <T> long count(CriteriaQuery criteriaQuery, Class<T> clazz) {
-        QueryBuilder elasticsearchQuery = new CriteriaQueryProcessor().createQueryFromCriteria(criteriaQuery.getCriteria());
-        FilterBuilder elasticsearchFilter = new CriteriaFilterProcessor().createFilterFromCriteria(criteriaQuery.getCriteria());
-
-        if (elasticsearchFilter == null) {
-            return doCount(prepareCount(criteriaQuery, clazz), elasticsearchQuery);
-        } else {
-            // filter could not be set into CountRequestBuilder, convert request
-            // into search request
-            return doCount(prepareSearch(criteriaQuery, clazz), elasticsearchQuery, elasticsearchFilter);
-        }
-    }
+    //    @Override
+    //    public <T> long count(CriteriaQuery criteriaQuery, Class<T> clazz) {
+    //        QueryBuilder elasticsearchQuery = new CriteriaQueryProcessor().createQueryFromCriteria(criteriaQuery.getCriteria());
+    //        FilterBuilder elasticsearchFilter = new CriteriaFilterProcessor().createFilterFromCriteria(criteriaQuery.getCriteria());
+    //
+    //        if (elasticsearchFilter == null) {
+    //            return doCount(prepareCount(criteriaQuery, clazz), elasticsearchQuery);
+    //        } else {
+    //            // filter could not be set into CountRequestBuilder, convert request
+    //            // into search request
+    //            return doCount(prepareSearch(criteriaQuery, clazz), elasticsearchQuery, elasticsearchFilter);
+    //        }
+    //    }
 
     @Override
     public <T> long count(SearchQuery searchQuery, Class<T> clazz) {
@@ -390,10 +389,10 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
         }
     }
 
-    @Override
-    public <T> long count(CriteriaQuery query) {
-        return count(query, null);
-    }
+    //    @Override
+    //    public <T> long count(CriteriaQuery query) {
+    //        return count(query, null);
+    //    }
 
     @Override
     public <T> long count(SearchQuery query) {
@@ -533,7 +532,7 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
             throw new ElasticsearchException("Bulk indexing has failures. Use ElasticsearchException.getFailedDocuments() for detailed messages [" + failedDocuments + "]", failedDocuments);
         }
     }
-    
+
     @Override
     public void bulkUpdate(List<UpdateQuery> queries) {
         BulkRequestBuilder bulkRequest = client.prepareBulk();
@@ -619,37 +618,37 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
         client.prepareDeleteByQuery(deleteQuery.getIndex()).setTypes(deleteQuery.getType()).setQuery(deleteQuery.getQuery()).execute().actionGet();
     }
 
-    @Override
-    public <T> void delete(CriteriaQuery criteriaQuery, Class<T> clazz) {
-        QueryBuilder elasticsearchQuery = new CriteriaQueryProcessor().createQueryFromCriteria(criteriaQuery.getCriteria());
-        Preconditions.checkNotNull(elasticsearchQuery, "Query can not be null.");
-        DeleteQuery deleteQuery = new DeleteQuery();
-        deleteQuery.setQuery(elasticsearchQuery);
-        delete(deleteQuery, clazz);
-    }
-
-    @Override
-    public String scan(CriteriaQuery criteriaQuery, long scrollTimeInMillis, boolean noFields) {
-        Preconditions.checkNotNull(criteriaQuery.getIndices(), "No index defined for Query");
-        Preconditions.checkNotNull(criteriaQuery.getTypes(), "No type define for Query");
-        Preconditions.checkNotNull(criteriaQuery.getPageable(), "Query.pageable is required for scan & scroll");
-
-        QueryBuilder elasticsearchQuery = new CriteriaQueryProcessor().createQueryFromCriteria(criteriaQuery.getCriteria());
-        FilterBuilder elasticsearchFilter = new CriteriaFilterProcessor().createFilterFromCriteria(criteriaQuery.getCriteria());
-        SearchRequestBuilder requestBuilder = prepareScan(criteriaQuery, scrollTimeInMillis, noFields);
-
-        if (elasticsearchQuery != null) {
-            requestBuilder.setQuery(elasticsearchQuery);
-        } else {
-            requestBuilder.setQuery(QueryBuilders.matchAllQuery());
-        }
-
-        if (elasticsearchFilter != null) {
-            requestBuilder.setPostFilter(elasticsearchFilter);
-        }
-
-        return getSearchResponse(requestBuilder.execute()).getScrollId();
-    }
+    //    @Override
+    //    public <T> void delete(CriteriaQuery criteriaQuery, Class<T> clazz) {
+    //        QueryBuilder elasticsearchQuery = new CriteriaQueryProcessor().createQueryFromCriteria(criteriaQuery.getCriteria());
+    //        Preconditions.checkNotNull(elasticsearchQuery, "Query can not be null.");
+    //        DeleteQuery deleteQuery = new DeleteQuery();
+    //        deleteQuery.setQuery(elasticsearchQuery);
+    //        delete(deleteQuery, clazz);
+    //    }
+    //
+    //    @Override
+    //    public String scan(CriteriaQuery criteriaQuery, long scrollTimeInMillis, boolean noFields) {
+    //        Preconditions.checkNotNull(criteriaQuery.getIndices(), "No index defined for Query");
+    //        Preconditions.checkNotNull(criteriaQuery.getTypes(), "No type define for Query");
+    //        Preconditions.checkNotNull(criteriaQuery.getPageable(), "Query.pageable is required for scan & scroll");
+    //
+    //        QueryBuilder elasticsearchQuery = new CriteriaQueryProcessor().createQueryFromCriteria(criteriaQuery.getCriteria());
+    //        FilterBuilder elasticsearchFilter = new CriteriaFilterProcessor().createFilterFromCriteria(criteriaQuery.getCriteria());
+    //        SearchRequestBuilder requestBuilder = prepareScan(criteriaQuery, scrollTimeInMillis, noFields);
+    //
+    //        if (elasticsearchQuery != null) {
+    //            requestBuilder.setQuery(elasticsearchQuery);
+    //        } else {
+    //            requestBuilder.setQuery(QueryBuilders.matchAllQuery());
+    //        }
+    //
+    //        if (elasticsearchFilter != null) {
+    //            requestBuilder.setPostFilter(elasticsearchFilter);
+    //        }
+    //
+    //        return getSearchResponse(requestBuilder.execute()).getScrollId();
+    //    }
 
     @Override
     public String scan(SearchQuery searchQuery, long scrollTimeInMillis, boolean noFields) {
@@ -820,7 +819,7 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
 
         @Override
         public void remove() {
-            
+
         }
     }
 

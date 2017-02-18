@@ -6,18 +6,12 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
-import com.bj58.chr.scf.cvsearch.entity.CVCriteriaBean;
 import com.bj58.chr.scf.cvsearch.entity.CVIndexBean;
 
 import core.ESTemplateClient;
 import lemon.elastic.query4j.BootStrap;
-import lemon.elastic.query4j.esproxy.core.query.Criteria;
-import lemon.elastic.query4j.esproxy.core.query.CriteriaQuery;
 import lemon.elastic.query4j.esproxy.core.query.NativeSearchQueryBuilder;
 import lemon.elastic.query4j.esproxy.core.query.SearchQuery;
-import lemon.elastic.query4j.esproxy.domain.Page;
-import lemon.elastic.query4j.provider.CriteriaQueryGene;
-import lemon.elastic.query4j.provider.ElasticCriteriaQueryGene;
 import lemon.elastic4j.test.jobmv.CompanyEsInfo;
 
 public class CVQueryTest {
@@ -26,36 +20,36 @@ public class CVQueryTest {
         BootStrap.init();
     }
 
-    @Test
-    public void crite() {
-        try {
-            CVCriteriaBean bean = new CVCriteriaBean();
-            bean.setCvname("java");
-            CriteriaQueryGene gene = new ElasticCriteriaQueryGene();
-            CriteriaQuery query = gene.geneESQueryPageable(JSON.toJSONString(bean), CVCriteriaBean.class, 0, 10);
-            Page<CVIndexBean> list = ESTemplateClient.getInstance().getTemplate().queryForPage(query, CVIndexBean.class);
-            for (CVIndexBean cv : list) {
-                System.out.println(JSON.toJSON(cv));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void crite2() {
-        try {
-            Criteria crit = new Criteria("explocal").is(169);
-            CriteriaQuery query = new CriteriaQuery(crit);
-            
-            Page<CVIndexBean> page = ESTemplateClient.getInstance().getTemplate().queryForPage(query, CVIndexBean.class);
-            for (CVIndexBean cv : page.getContent()) {
-                System.out.println(JSON.toJSON(cv));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    //    @Test
+    //    public void crite() {
+    //        try {
+    //            CVCriteriaBean bean = new CVCriteriaBean();
+    //            bean.setCvname("java");
+    //            CriteriaQueryGene gene = new ElasticCriteriaQueryGene();
+    //            CriteriaQuery query = gene.geneESQueryPageable(JSON.toJSONString(bean), CVCriteriaBean.class, 0, 10);
+    //            Page<CVIndexBean> list = ESTemplateClient.getInstance().getTemplate().queryForPage(query, CVIndexBean.class);
+    //            for (CVIndexBean cv : list) {
+    //                System.out.println(JSON.toJSON(cv));
+    //            }
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //        }
+    //    }
+    //
+    //    @Test
+    //    public void crite2() {
+    //        try {
+    //            Criteria crit = new Criteria("explocal").is(169);
+    //            CriteriaQuery query = new CriteriaQuery(crit);
+    //            
+    //            Page<CVIndexBean> page = ESTemplateClient.getInstance().getTemplate().queryForPage(query, CVIndexBean.class);
+    //            for (CVIndexBean cv : page.getContent()) {
+    //                System.out.println(JSON.toJSON(cv));
+    //            }
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //        }
+    //    }
 
     @Test
     public void qslliving() {
