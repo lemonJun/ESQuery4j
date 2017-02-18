@@ -1,0 +1,10 @@
+"settings" : {
+        "index" : {
+            "similarity" : {
+                "mastering_similarity" : {
+                    "type" : "default",
+                    "discount_overlaps" : false
+                }
+            }
+        }
+    }
