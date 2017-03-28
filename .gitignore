@@ -11,3 +11,15 @@
  +*bin
  +.DS_Store
 /target/
+*dependency-reduced-pom.xml
+.classpath
+.project
+.settings/
+target/
+devenv
+*.log*
+*.iml
+.idea/
+*.versionsBackup
+*bin
+.DS_Store
