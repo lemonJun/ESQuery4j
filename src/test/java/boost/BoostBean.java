@@ -10,7 +10,7 @@ public class BoostBean {
     @Field(type = FieldType.String, index = FieldIndex.analyzed)
     private String id;
 
-    @Field(type = FieldType.String, index = FieldIndex.analyzed, indexAnalyzer = "ik", searchAnalyzer = "ik")
+    @Field(type = FieldType.String, index = FieldIndex.analyzed, indexAnalyzer = "mmseg", searchAnalyzer = "mmseg")
     private String name;
 
     @Field(type = FieldType.Float)
@@ -35,7 +35,7 @@ public class BoostBean {
     public float get_boost() {
         return _boost;
     }
-    
+
     public void set_boost(float _boost) {
         this._boost = _boost;
     }

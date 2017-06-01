@@ -58,11 +58,15 @@ public class BoostMain {
 
     @Test
     public void query() {
-        NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
-        BoolQueryBuilder query = QueryBuilders.boolQuery();
-        query.must(QueryBuilders.matchPhraseQuery("name", "java world").analyzer("ik").slop(5));
-        SearchQuery searchQuery = builder.withQuery(query).build();
-        ESTemplateClient.getInstance().getTemplate().queryForPage(searchQuery, BoostBean.class);
-
+        try {
+            NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
+            BoolQueryBuilder query = QueryBuilders.boolQuery();
+            query.must(QueryBuilders.matchPhraseQuery("name", "java world").analyzer("mmseg").slop(5));
+            SearchQuery searchQuery = builder.withQuery(query).build();
+            ESTemplateClient.getInstance().getTemplate().queryForPage(searchQuery, BoostBean.class);
+            Thread.sleep(Integer.MAX_VALUE);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -742,6 +742,7 @@ public class ElasticsearchTemplate implements ElasticsearchOperations {
             }
         }
         searchRequest.setQuery(searchQuery.getQuery());
+        logger.info("search type:" + searchQuery.getSearchType());
         logger.info(String.format("searchquery dsl:\n%s", searchRequest.toString()));
         return getSearchResponse(searchRequest.execute());
     }
